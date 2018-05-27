@@ -4,10 +4,11 @@
 
 using System.Collections.Generic;
 
-using Discord;
 using Discord.WebSocket;
 
 using DiscordCraft.WebHooks;
+
+using DiscordWebhook;
 
 namespace DiscordCraft.HookTypes
 {
@@ -15,24 +16,24 @@ namespace DiscordCraft.HookTypes
     {
         public static async void Send(SocketUserMessage msg)
         {
-            await DiscordHook.Send(new WebHookMessage
+            await new Webhook(DiscordHook._webhookUrl)
             {
                 AvatarUrl = DiscordHook._avatarUrl,
                 Username = "SkyFactory",
                 Embeds = new List<Embed>
                 {
-                    new EmbedBuilder
+                    new Embed
                     {
-                        Author = new EmbedAuthorBuilder
+                        Author = new EmbedAuthor
                         {
                             IconUrl = msg.Author.GetAvatarUrl(),
                             Name = msg.Author.Username
                         },
-                        Color = Color.Red,
+                        Color = 16711680,
                         Description = "left the server!"
-                    }.Build()
+                    }
                 }
-            });
+            }.Send();
         }
     }
 }
