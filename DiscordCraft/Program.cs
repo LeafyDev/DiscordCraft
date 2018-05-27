@@ -43,7 +43,9 @@ namespace DiscordCraft
 
             _client.MessageReceived += HandleCommandAsync;
 
-            await _client.LoginAsync(TokenType.Bot, "NDQ3NzczNzU5MTczMTY1MDg2.Det_ag.csj5ITxpUZga3xqTdCc63DIpVxs");
+            Config.ParseConfig();
+
+            await _client.LoginAsync(TokenType.Bot, Config.DiscordToken);
             await _client.StartAsync();
 
             await Task.Delay(-1);
