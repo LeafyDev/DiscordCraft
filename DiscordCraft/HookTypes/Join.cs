@@ -13,6 +13,6 @@ namespace DiscordCraft.HookTypes
     internal static class Join
     {
         public static async Task Send(SocketUserMessage msg) =>
-            await WebHook.SendEmbedHook(msg.Author.GetAvatarUrl(), msg.Author.Username, 65280, "**joined the server!**");
+            await WebHook.SendEmbedHook("SkyFactory", msg.Author.GetAvatarUrl(), msg.Author.Username, 65280, "**joined the server!**");
     }
 }

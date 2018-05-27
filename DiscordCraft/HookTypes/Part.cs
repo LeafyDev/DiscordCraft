@@ -13,6 +13,6 @@ namespace DiscordCraft.HookTypes
     internal static class Part
     {
         public static async Task Send(SocketUserMessage msg) =>
-            await WebHook.SendEmbedHook(msg.Author.GetAvatarUrl(), msg.Author.Username, 16711680, "**left the server!**");
+            await WebHook.SendEmbedHook("SkyFactory", msg.Author.GetAvatarUrl(), msg.Author.Username, 16711680, "**left the server!**");
     }
 }

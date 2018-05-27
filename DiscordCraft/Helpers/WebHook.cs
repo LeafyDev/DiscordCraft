@@ -31,12 +31,12 @@ namespace DiscordCraft.Helpers
             }.Send();
         }
 
-        public static async Task SendEmbedHook(string AuthorIconUrl, string AuthorName, int color, string description)
+        public static async Task SendEmbedHook(string Username, string AuthorIconUrl, string AuthorName, int color, string description)
         {
             await new Webhook(Config.DiscordHookUrl)
             {
                 AvatarUrl = Config.AvatarUrl,
-                Username = "SkyFactory",
+                Username = Username,
                 Embeds = new List<Embed>
                 {
                     new Embed
