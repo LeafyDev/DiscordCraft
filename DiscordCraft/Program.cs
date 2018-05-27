@@ -1,4 +1,8 @@
-﻿using System;
+﻿// ---------------------------------------------------------
+// Copyrights (c) 2014-2018 LeafyDev 🍂 All rights reserved.
+// ---------------------------------------------------------
+
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -6,8 +10,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
+using DiscordCraft.Helpers;
 using DiscordCraft.HookTypes;
-using DiscordCraft.WebHooks;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,10 +21,10 @@ namespace DiscordCraft
 {
     internal sealed class Program
     {
-        private DiscordSocketClient _client;
         private readonly CommandService _commands = new CommandService();
 
         private readonly IServiceCollection _map = new ServiceCollection();
+        private DiscordSocketClient _client;
 
         private IServiceProvider _services;
 
@@ -73,32 +77,33 @@ namespace DiscordCraft
             if (msg.Channel.Id != 449886304117850132) return;
 
             // Whitelist webhook messages that don't come from ourself
-            if (msg.Source != MessageSource.Webhook || msg.Author.Username == "SkyFactory") return;
+            if (msg.Source != MessageSource.Webhook) return;
 
-            var msgType = msg.DetectType();
-
-            switch (msgType)
+            switch (msg.DetectType())
             {
                 case MsgType.Message:
+                    await Message.Send(msg);
                     break;
                 case MsgType.Join:
-                    Join.Send(msg);
+                    await Join.Send(msg);
                     break;
                 case MsgType.Part:
-                    Part.Send(msg);
+                    await Part.Send(msg);
                     break;
                 case MsgType.SrvStart:
-                    SrvStart.Send();
+                    await SrvStart.Send();
                     break;
                 case MsgType.SrvStop:
-                    SrvStop.Send();
+                    await SrvStop.Send();
                     break;
                 case MsgType.SrvCrash:
-                    SrvCrash.Send();
+                    await SrvCrash.Send();
                     break;
                 case MsgType.Cmd:
+                    await Command.Send(msg);
                     break;
                 case MsgType.Death:
+                    await Death.Send(msg);
                     break;
                 case MsgType.Achievement:
                     break;
