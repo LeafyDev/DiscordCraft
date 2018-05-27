@@ -1,0 +1,3 @@
+[submodule "DiscordWebhook"]
+	path = DiscordWebhook
+	url = https://github.com/Hellsing/DiscordWebhook
