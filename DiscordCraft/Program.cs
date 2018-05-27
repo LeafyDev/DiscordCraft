@@ -24,7 +24,7 @@ namespace DiscordCraft
         private readonly CommandService _commands = new CommandService();
 
         private readonly IServiceCollection _map = new ServiceCollection();
-        private DiscordSocketClient _client;
+        public static DiscordSocketClient _client;
 
         private IServiceProvider _services;
 
@@ -51,6 +51,8 @@ namespace DiscordCraft
 
             await _client.LoginAsync(TokenType.Bot, Config.DiscordToken);
             await _client.StartAsync();
+
+            await PlayerCount.Update();
 
             await Task.Delay(-1);
         }
