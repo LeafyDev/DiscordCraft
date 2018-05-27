@@ -106,6 +106,7 @@ namespace DiscordCraft
                     await Death.Send(msg);
                     break;
                 case MsgType.Achievement:
+                    await Achievement.Send(msg);
                     break;
                 case null:
                     Console.WriteLine("Found null msgType");
