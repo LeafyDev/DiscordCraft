@@ -25,11 +25,13 @@ namespace DiscordCraft.HookTypes
                 case "~SRV_CRASH~":
                     return MsgType.SrvCrash;
                 default:
-                    if (msg.Content.StartsWith("~MSG~", StringComparison.Ordinal))
+                    if (msg.Content.StartsWith("~MSG~ ", StringComparison.Ordinal))
                         return MsgType.Message;
-                    if (msg.Content.StartsWith("~DEATH~", StringComparison.Ordinal))
+                    if (msg.Content.StartsWith("~CMD~ ", StringComparison.Ordinal))
+                        return MsgType.Cmd;
+                    if (msg.Content.StartsWith("~DEATH~ ", StringComparison.Ordinal))
                         return MsgType.Death;
-                    if (msg.Content.StartsWith("~ACHIEVEMENT~", StringComparison.Ordinal))
+                    if (msg.Content.StartsWith("~ACHIEVEMENT~ ", StringComparison.Ordinal))
                         return MsgType.Achievement;
 
                     break;

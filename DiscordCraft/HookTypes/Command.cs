@@ -10,9 +10,9 @@ using DiscordCraft.Helpers;
 
 namespace DiscordCraft.HookTypes
 {
-    internal static class Part
+    internal static class Command
     {
         public static async Task Send(SocketUserMessage msg) =>
-            await WebHook.SendEmbedHook(msg.Author.GetAvatarUrl(), msg.Author.Username, 16711680, "**left the server!**");
+            await WebHook.SendHook($"executed command: **{msg.Content.Remove(0, 6)}**");
     }
 }
