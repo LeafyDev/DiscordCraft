@@ -11,6 +11,7 @@ namespace DiscordCraft.Helpers
         public static string AvatarUrl { get; private set; }
         public static string DiscordToken { get; private set; }
         public static string DiscordHookUrl { get; private set; }
+        public static string DiscordGame { get; private set; }
 
         public static void ParseConfig()
         {
@@ -18,6 +19,7 @@ namespace DiscordCraft.Helpers
             DiscordToken = configFile[0];
             DiscordHookUrl = configFile[1];
             AvatarUrl = configFile[2];
+            DiscordGame = configFile[3];
         }
     }
 }

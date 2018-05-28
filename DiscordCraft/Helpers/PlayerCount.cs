@@ -2,7 +2,6 @@
 // Copyrights (c) 2014-2018 LeafyDev 🍂 All rights reserved.
 // ---------------------------------------------------------
 
-using System.Data;
 using System.Threading.Tasks;
 
 namespace DiscordCraft.Helpers
@@ -25,7 +24,7 @@ namespace DiscordCraft.Helpers
 
         public static async Task Update()
         {
-            await Program._client.SetGameAsync($"SkyFactory 2.4: {CurrentPlayers} online");
+            await Program._client.SetGameAsync($"{Config.DiscordGame}: {CurrentPlayers} online");
         }
     }
 }
