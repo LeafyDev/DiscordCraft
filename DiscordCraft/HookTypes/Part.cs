@@ -2,6 +2,7 @@
 // Copyrights (c) 2014-2018 LeafyDev 🍂 All rights reserved.
 // ---------------------------------------------------------
 
+using System.Linq;
 using System.Threading.Tasks;
 
 using Discord.WebSocket;
@@ -14,8 +15,14 @@ namespace DiscordCraft.HookTypes
     {
         public static async Task Send(SocketUserMessage msg)
         {
-            await WebHook.SendEmbedHook("SkyFactory", msg.Author.GetAvatarUrl(), msg.Author.Username, 16711680,
+            var username = msg.Author.Username;
+
+            if (username.Contains("§")) username = username.Split('§').LastOrDefault()?.Remove(0, 1);
+
+            await WebHook.SendEmbedHook("SkyFactory", msg.Author.GetAvatarUrl(), username, 16711680,
                 "**left the server!**");
+
+            Stats.StopPlaying(username);
 
             await PlayerCount.DelPlayer();
         }

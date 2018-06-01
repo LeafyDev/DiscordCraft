@@ -3,6 +3,7 @@
 // ---------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -21,10 +22,10 @@ namespace DiscordCraft
 {
     internal sealed class Program
     {
+        public static DiscordSocketClient _client;
         private readonly CommandService _commands = new CommandService();
 
         private readonly IServiceCollection _map = new ServiceCollection();
-        public static DiscordSocketClient _client;
 
         private IServiceProvider _services;
 
@@ -33,6 +34,10 @@ namespace DiscordCraft
 
         private async Task MainAsync()
         {
+            if (!Directory.Exists("stats")) Directory.CreateDirectory("stats");
+
+            if (!File.Exists("stats/players.txt")) File.Create("stats/players.txt").Close();
+
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info,
@@ -46,6 +51,7 @@ namespace DiscordCraft
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
 
             _client.MessageReceived += HandleCommandAsync;
+            _client.UserVoiceStateUpdated += HandleVoiceStateAsync;
 
             Config.ParseConfig();
 
@@ -55,6 +61,20 @@ namespace DiscordCraft
             await PlayerCount.Update();
 
             await Task.Delay(-1);
+        }
+
+        private async Task HandleVoiceStateAsync(SocketUser arg1, SocketVoiceState arg2, SocketVoiceState arg3)
+        {
+            var action = string.Empty;
+
+            if (arg2.VoiceChannel == null && arg3.VoiceChannel.Id == 450348064994230273) action = "joined";
+            if (arg2.VoiceChannel?.Id == 450348064994230273 && arg3.VoiceChannel == null) action = "left";
+
+            if (action == string.Empty)
+                return;
+
+            await WebHook.SendEmbedHook("SkyFactory", arg1.GetAvatarUrl(), arg1.Username, 6554197,
+                $"{action} voice channel.");
         }
 
         private async Task HandleCommandAsync(SocketMessage arg)
@@ -72,6 +92,8 @@ namespace DiscordCraft
                 if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
                     await msg.Channel.SendMessageAsync(result.ErrorReason);
 
+                // TODO: increment command counter
+
                 return;
             }
 
@@ -83,6 +105,7 @@ namespace DiscordCraft
 
             switch (msg.DetectType())
             {
+                // TODO: increment each type counter
                 case MsgType.Message:
                     await Message.Send(msg);
                     break;

@@ -8,7 +8,7 @@ namespace DiscordCraft.Helpers
 {
     internal static class PlayerCount
     {
-        private static int CurrentPlayers { get; set; }
+        public static int CurrentPlayers { get; private set; }
 
         public static async Task AddPlayer()
         {
